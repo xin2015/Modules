@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.FastReflectionLib",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQE40", "Modules.AQE40\Modules.AQE40.csproj", "{61F24F66-BE58-4AEA-BBC9-84951661C5A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Basic", "Modules.Basic\Modules.Basic.csproj", "{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
