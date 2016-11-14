@@ -33,7 +33,7 @@ namespace Modules.FastReflection
         /// <summary>
         /// 构造函数信息
         /// </summary>
-        public ConstructorInfo Constructor { get; }
+        public ConstructorInfo Constructor { get; private set; }
 
         /// <summary>
         /// 调用构造函数

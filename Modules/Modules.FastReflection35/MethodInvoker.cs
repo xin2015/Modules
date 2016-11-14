@@ -34,7 +34,7 @@ namespace Modules.FastReflection
         /// <summary>
         /// 方法信息
         /// </summary>
-        public MethodInfo Method { get; }
+        public MethodInfo Method { get; private set; }
 
         /// <summary>
         /// 调用方法
@@ -110,7 +110,7 @@ namespace Modules.FastReflection
         /// <summary>
         /// 方法信息
         /// </summary>
-        public MethodInfo Method { get; }
+        public MethodInfo Method { get; private set; }
 
         /// <summary>
         /// 调用方法
