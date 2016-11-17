@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modules.Basic.Extensions;
 
 namespace Modules.Basic.Helpers
 {
@@ -39,6 +40,14 @@ namespace Modules.Basic.Helpers
         }
 
         #region SqlCommand
+        /// <summary>
+        /// 获取数据库指令
+        /// </summary>
+        /// <param name="conn">数据库连接</param>
+        /// <param name="cmdType">指令类型</param>
+        /// <param name="cmdText">指令文本</param>
+        /// <param name="cmdParameters">指令参数</param>
+        /// <returns></returns>
         public SqlCommand GetInitSqlCommand(SqlConnection conn, CommandType cmdType, string cmdText, params SqlParameter[] cmdParameters)
         {
             SqlCommand cmd = new SqlCommand(cmdText, conn);
@@ -50,6 +59,13 @@ namespace Modules.Basic.Helpers
             return cmd;
         }
 
+        /// <summary>
+        /// 获取数据库指令
+        /// </summary>
+        /// <param name="conn">数据库连接</param>
+        /// <param name="cmdText">指令文本</param>
+        /// <param name="cmdParameters">指令参数</param>
+        /// <returns></returns>
         public SqlCommand GetInitSqlCommand(SqlConnection conn, string cmdText, params SqlParameter[] cmdParameters)
         {
             SqlCommand cmd = new SqlCommand(cmdText, conn);
