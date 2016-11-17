@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE40
+namespace Modules.AQE
 {
     /// <summary>
     /// 小时空气质量指数（计算）

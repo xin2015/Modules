@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE40
+namespace Modules.AQE
 {
     /// <summary>
     /// AQI计算工具类

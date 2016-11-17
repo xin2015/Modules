@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE40
+namespace Modules.AQE
 {
     /// <summary>
     /// 综合质量指数计算接口
