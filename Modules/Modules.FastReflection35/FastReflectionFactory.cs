@@ -4,11 +4,33 @@ using System.Reflection;
 namespace Modules.FastReflection
 {
     /// <summary>
+    /// 快速反射类工厂类接口
+    /// </summary>
+    /// <typeparam name="TKey">MemberInfo</typeparam>
+    /// <typeparam name="TValue">快速反射类接口</typeparam>
+    public interface IFastReflectionFactory<TKey, TValue> where TKey : MemberInfo
+    {
+        /// <summary>
+        /// 获取MemberInfo对应的快速反射类（字典缓存）
+        /// </summary>
+        /// <param name="key">MemberInfo</param>
+        /// <returns>快速反射接口</returns>
+        TValue Get(TKey key);
+
+        /// <summary>
+        /// 创建MemberInfo对应的快速反射类
+        /// </summary>
+        /// <param name="key">MemberInfo</param>
+        /// <returns>快速反射类接口</returns>
+        TValue Create(TKey key);
+    }
+
+    /// <summary>
     /// 快速反射类工厂类
     /// </summary>
     /// <typeparam name="TKey">MemberInfo</typeparam>
     /// <typeparam name="TValue">快速反射类接口</typeparam>
-    public abstract class FastReflectionFactory<TKey, TValue> where TKey : MemberInfo
+    public abstract class FastReflectionFactory<TKey, TValue> : IFastReflectionFactory<TKey, TValue> where TKey : MemberInfo
     {
         static Dictionary<TKey, TValue> dic;
         static FastReflectionFactory()

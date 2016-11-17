@@ -20,7 +20,7 @@ namespace Modules.Basic.Extensions
         public static List<T> GetList<T>(this DataTable dt) where T : class, new()
         {
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            IPropertyAccessor[] accessors = typeof(T).GetProperties().Select(o => factory.Get(o)).ToArray();
+            IPropertyAccessor[] accessors = typeof(T).GetProperties().Where(o => dt.Columns.Contains(o.Name)).Select(o => factory.Get(o)).ToArray();
             List<T> list = new List<T>();
             foreach (DataRow dr in dt.Rows)
             {
@@ -56,7 +56,7 @@ namespace Modules.Basic.Extensions
                     list.Add(new T());
                 }
                 PropertyAccessorFactory factory = new PropertyAccessorFactory();
-                IPropertyAccessor[] accessors = typeof(T).GetProperties().Select(o => factory.Get(o)).ToArray();
+                IPropertyAccessor[] accessors = typeof(T).GetProperties().Where(o => dt.Columns.Contains(o.Name)).Select(o => factory.Get(o)).ToArray();
                 foreach (IPropertyAccessor accessor in accessors)
                 {
                     int i = 0;
