@@ -139,15 +139,17 @@ namespace Modules.AQE
                 IAQIPropertiesDic.Add(pollutant, factory.Get(IAQIReportProperties.First(o => o.Name == string.Format("I{0}", pollutant))));
             }
             AQIAboutDic = new Dictionary<string, AQIAbout>();
-            for (int i = 0; i < 6; i++)
+            for (int i = 0; i < 6;)
             {
                 AQIAbout data = new AQIAbout();
                 data.Type = Enum.GetName(typeof(AQIType), i);
                 data.Level = Enum.GetName(typeof(AQILevel), i);
                 data.Color = Enum.GetName(typeof(AQIColor), i);
-                data.RomanLevel = Enum.GetName(typeof(AQILevelRoman), i);
+                data.RomanLevel = Enum.GetName(typeof(AQIRomanLevel), i);
                 data.Measure = measures[i];
                 data.Effect = effects[i];
+                i++;
+                data.NumberLevel = i.ToString();
                 AQIAboutDic.Add(data.Type, data);
             }
         }
@@ -488,6 +490,16 @@ namespace Modules.AQE
         }
 
         /// <summary>
+        /// 根据AQI类别计算AQIAbout
+        /// </summary>
+        /// <param name="type">空气质量指数类别</param>
+        /// <returns></returns>
+        public static AQIAbout CalculateAQIAboutByType(string type)
+        {
+            return AQIAboutDic[type];
+        }
+
+        /// <summary>
         /// 根据AQI类别计算等级和颜色
         /// </summary>
         /// <param name="data">空气质量指数日报/实时报接口</param>
@@ -637,7 +649,7 @@ namespace Modules.AQE
     /// <summary>
     /// 空气质量指数级别罗马字母表示
     /// </summary>
-    public enum AQILevelRoman
+    public enum AQIRomanLevel
     {
         /// <summary>
         /// 一级
@@ -694,5 +706,9 @@ namespace Modules.AQE
         /// 空气质量指数级别罗马数字表示
         /// </summary>
         public string RomanLevel { get; set; }
+        /// <summary>
+        /// 空气质量指数级别阿拉伯数字表示
+        /// </summary>
+        public string NumberLevel { get; set; }
     }
 }
