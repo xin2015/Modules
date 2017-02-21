@@ -1,19 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.FastReflection35", "Modules.FastReflection35\Modules.FastReflection35.csproj", "{77CAE14A-2982-4AE3-92B1-FC92D7E16399}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQE", "Modules.AQE\Modules.AQE.csproj", "{16C140D3-714F-4211-8875-2E2D7FE69B41}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.FastReflection", "Modules.FastReflection\Modules.FastReflection.csproj", "{FF9CF496-0DF3-4815-83B3-CB85AA08FC67}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.FastReflectionLib", "Modules.FastReflectionLib\Modules.FastReflectionLib.csproj", "{ECB1A524-2A6C-496A-82C1-30D75DEA2680}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQE40", "Modules.AQE40\Modules.AQE40.csproj", "{61F24F66-BE58-4AEA-BBC9-84951661C5A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Basic", "Modules.Basic\Modules.Basic.csproj", "{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +19,6 @@ Global
 		{77CAE14A-2982-4AE3-92B1-FC92D7E16399}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77CAE14A-2982-4AE3-92B1-FC92D7E16399}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77CAE14A-2982-4AE3-92B1-FC92D7E16399}.Release|Any CPU.Build.0 = Release|Any CPU
-		{16C140D3-714F-4211-8875-2E2D7FE69B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{16C140D3-714F-4211-8875-2E2D7FE69B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{16C140D3-714F-4211-8875-2E2D7FE69B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{16C140D3-714F-4211-8875-2E2D7FE69B41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF9CF496-0DF3-4815-83B3-CB85AA08FC67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF9CF496-0DF3-4815-83B3-CB85AA08FC67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF9CF496-0DF3-4815-83B3-CB85AA08FC67}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,14 +27,6 @@ Global
 		{ECB1A524-2A6C-496A-82C1-30D75DEA2680}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECB1A524-2A6C-496A-82C1-30D75DEA2680}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECB1A524-2A6C-496A-82C1-30D75DEA2680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61F24F66-BE58-4AEA-BBC9-84951661C5A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A7531F9-8323-471B-8BB5-C46EAEF26AC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
