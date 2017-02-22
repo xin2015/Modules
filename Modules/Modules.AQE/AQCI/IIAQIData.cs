@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE
+namespace Modules.AQE.AQCI
 {
     /// <summary>
     /// 空气质量单项指数数据接口
     /// </summary>
-    public interface ISAQIData
+    public interface IIAQIData
     {
         /// <summary>
         /// 二氧化硫（SO2）单项指数

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE
+namespace Modules.AQE.AQCI
 {
     /// <summary>
-    /// 空气质量综合指数详细结果接口
+    /// 空气质量综合指数详细结果
     /// </summary>
-    public interface IAQCIResultDetail : IAQCIResult
+    public class AQCIResultDetail : AQCIResult, IAQCIResultDetail
     {
         /// <summary>
         /// 空气质量最大指数
         /// </summary>
-        decimal? AQMI { get; set; }
+        public decimal? AQMI { get; set; }
     }
 }

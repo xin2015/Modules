@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE
+namespace Modules.AQE.AQCI
 {
     /// <summary>
-    /// 空气质量指数计算接口
+    /// 空气质量综合指数计算接口
     /// </summary>
-    public interface IAQICalculate : IAQMData, IAQIResult
+    public interface IAQCICalculate : IAQMData, IAQCIResult
     {
     }
 }

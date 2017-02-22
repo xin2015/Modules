@@ -4,20 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modules.AQE
+namespace Modules.AQE.AQCI
 {
     /// <summary>
-    /// 空气质量综合指数结果
+    /// 空气质量综合指数结果接口
     /// </summary>
-    public class AQCIResult : IAQCIResult
+    public interface IAQCIResult
     {
         /// <summary>
         /// 空气质量综合指数
         /// </summary>
-        public decimal? AQCI { get; set; }
+        decimal? AQCI { get; set; }
         /// <summary>
         /// 首要污染物
         /// </summary>
-        public string PrimaryPollutant { get; set; }
+        string PrimaryPollutant { get; set; }
     }
 }
