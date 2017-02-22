@@ -331,27 +331,27 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算小时空气质量分指数字典
         /// </summary>
-        /// <param name="dic">空气质量基本评价项目浓度值字典</param>
+        /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <returns>小时空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetHourIAQIDic(Dictionary<string, decimal?> dic)
+        public static Dictionary<string, int> GetHourIAQIDic(Dictionary<string, decimal?> concentrationsDic)
         {
-            return GetIAQIDic(dic, hourConcentrationLimitsDic);
+            return GetIAQIDic(concentrationsDic, hourConcentrationLimitsDic);
         }
 
         /// <summary>
         /// 计算日均空气质量分指数字典
         /// </summary>
-        /// <param name="dic">空气质量基本评价项目浓度值字典</param>
+        /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <returns>日均空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetDayIAQIDic(Dictionary<string, decimal?> dic)
+        public static Dictionary<string, int> GetDayIAQIDic(Dictionary<string, decimal?> concentrationsDic)
         {
-            return GetIAQIDic(dic, dayConcentrationLimitsDic);
+            return GetIAQIDic(concentrationsDic, dayConcentrationLimitsDic);
         }
 
         /// <summary>
         /// 计算小时空气质量分指数字典
         /// </summary>
-        /// <param name="dic">空气质量基本评价项目浓度值数据接口</param>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>小时空气质量分指数字典</returns>
         public static Dictionary<string, int> GetHourIAQIDic(IAQMData data)
         {
@@ -361,7 +361,7 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算日均空气质量分指数字典
         /// </summary>
-        /// <param name="dic">空气质量基本评价项目浓度值数据接口</param>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>日均空气质量分指数字典</returns>
         public static Dictionary<string, int> GetDayIAQIDic(IAQMData data)
         {
@@ -425,29 +425,29 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算小时空气质量指数结果
         /// </summary>
-        /// <param name="IAQIDic">空气质量基本评价项目小时浓度值字典</param>
+        /// <param name="concentrationsDic">空气质量基本评价项目小时浓度值字典</param>
         /// <returns>小时空气质量指数结果</returns>
-        public static AQIResult GetHourAQIResult(Dictionary<string, decimal?> dic)
+        public static AQIResult GetHourAQIResult(Dictionary<string, decimal?> concentrationsDic)
         {
-            Dictionary<string, int> IAQIDic = GetHourIAQIDic(dic);
+            Dictionary<string, int> IAQIDic = GetHourIAQIDic(concentrationsDic);
             return GetAQIResult(IAQIDic);
         }
 
         /// <summary>
         /// 计算日均空气质量指数结果
         /// </summary>
-        /// <param name="IAQIDic">空气质量基本评价项目日均浓度值字典</param>
+        /// <param name="concentrationsDic">空气质量基本评价项目日均浓度值字典</param>
         /// <returns>日均空气质量指数结果</returns>
-        public static AQIResult GetDayAQIResult(Dictionary<string, decimal?> dic)
+        public static AQIResult GetDayAQIResult(Dictionary<string, decimal?> concentrationsDic)
         {
-            Dictionary<string, int> IAQIDic = GetDayIAQIDic(dic);
+            Dictionary<string, int> IAQIDic = GetDayIAQIDic(concentrationsDic);
             return GetAQIResult(IAQIDic);
         }
 
         /// <summary>
         /// 计算小时空气质量指数结果
         /// </summary>
-        /// <param name="IAQIDic">空气质量基本评价项目浓度值数据接口</param>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>小时空气质量指数结果</returns>
         public static AQIResult GetHourAQIResult(IAQMData data)
         {
@@ -458,7 +458,7 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算日均空气质量指数结果
         /// </summary>
-        /// <param name="IAQIDic">空气质量基本评价项目浓度值数据接口</param>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>日均空气质量指数结果</returns>
         public static AQIResult GetDayAQIResult(IAQMData data)
         {
@@ -504,7 +504,7 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算空气质量指数实时报
         /// </summary>
-        /// <param name="calculate">空气质量指数报表接口</param>
+        /// <param name="report">空气质量指数报表接口</param>
         public static void CalculateHourAQI(IAQIReport report)
         {
             Dictionary<string, int> IAQIDic = GetHourIAQIDic(report);
@@ -516,7 +516,7 @@ namespace Modules.AQE.AQI
         /// <summary>
         /// 计算空气质量指数日报
         /// </summary>
-        /// <param name="calculate">空气质量指数报表接口</param>
+        /// <param name="report">空气质量指数报表接口</param>
         public static void CalculateDayAQI(IAQIReport report)
         {
             Dictionary<string, int> IAQIDic = GetDayIAQIDic(report);
