@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Modules.AQE
+﻿namespace Modules.AQE
 {
     /// <summary>
     /// 空气质量基本评价项目浓度值/百分位数数据接口

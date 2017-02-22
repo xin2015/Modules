@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modules.AQE.AQCI
 {
@@ -50,11 +48,22 @@ namespace Modules.AQE.AQCI
 
         #region 私有方法
         /// <summary>
+        /// 计算空气质量单项指数
+        /// </summary>
+        /// <param name="pollutant">污染物监测项，命名同IAQMData</param>
+        /// <param name="value">浓度值</param>
+        /// <returns>空气质量单项指数</returns>
+        private static decimal GetIAQI(string pollutant, decimal value)
+        {
+            return Math.Round(value / limitDic[pollutant], 2);
+        }
+
+        /// <summary>
         /// 赋值IIAQIData
         /// </summary>
         /// <param name="result">空气质量单项指数数据接口</param>
         /// <param name="IAQIDic">空气质量单项指数字典</param>
-        private static void CalculateIAQI(IIAQIData result, Dictionary<string, decimal?> IAQIDic)
+        private static void CalculateIAQI(IIAQIData result, Dictionary<string, decimal> IAQIDic)
         {
             foreach (var item in IAQIDic)
             {
@@ -67,13 +76,13 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="result">空气质量综合指数结果接口</param>
         /// <param name="IAQIDic">空气质量单项指数字典</param>
-        private static void CalculateAQCI(IAQCIResult result, Dictionary<string, decimal?> IAQIDic)
+        private static void CalculateAQCI(IAQCIResult result, Dictionary<string, decimal> IAQIDic)
         {
-            if (IAQIDic.Count(o => o.Value.HasValue) == 6)
+            if (IAQIDic.Count == 6)
             {
                 result.AQCI = IAQIDic.Sum(o => o.Value);
-                decimal? AQMI = IAQIDic.Max(o => o.Value);
-                result.PrimaryPollutant = string.Join("", IAQIDic.Where(o => o.Value == AQMI).Select(o => o.Key));
+                decimal AQMI = IAQIDic.Max(o => o.Value);
+                result.PrimaryPollutant = string.Join(",", IAQIDic.Where(o => o.Value == AQMI).Select(o => o.Key));
             }
         }
 
@@ -82,13 +91,13 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="result">空气质量综合指数详细结果接口</param>
         /// <param name="IAQIDic">空气质量单项指数字典</param>
-        private static void CalculateAQCI(IAQCIResultDetail result, Dictionary<string, decimal?> IAQIDic)
+        private static void CalculateAQCI(IAQCIResultDetail result, Dictionary<string, decimal> IAQIDic)
         {
-            if (IAQIDic.Count(o => o.Value.HasValue) == 6)
+            if (IAQIDic.Count == 6)
             {
                 result.AQCI = IAQIDic.Sum(o => o.Value);
                 result.AQMI = IAQIDic.Max(o => o.Value);
-                result.PrimaryPollutant = string.Join("", IAQIDic.Where(o => o.Value == result.AQMI).Select(o => o.Key));
+                result.PrimaryPollutant = string.Join(",", IAQIDic.Where(o => o.Value == result.AQMI).Select(o => o.Key));
             }
         }
         #endregion
@@ -112,12 +121,12 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="pollutant">污染物监测项，命名同IAQMData</param>
         /// <param name="value">浓度值</param>
-        /// <returns></returns>
+        /// <returns>空气质量单项指数</returns>
         public static decimal? GetIAQI(string pollutant, decimal? value)
         {
             if (value.HasValue && value >= 0)
             {
-                return Math.Round(value.Value / limitDic[pollutant], 2);
+                return GetIAQI(pollutant, value.Value);
             }
             else
             {
@@ -130,12 +139,15 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <returns>空气质量单项指数字典</returns>
-        public static Dictionary<string, decimal?> GetIAQIDic(Dictionary<string, decimal?> concentrationsDic)
+        public static Dictionary<string, decimal> GetIAQIDic(Dictionary<string, decimal?> concentrationsDic)
         {
-            Dictionary<string, decimal?> IAQIDic = new Dictionary<string, decimal?>();
+            Dictionary<string, decimal> IAQIDic = new Dictionary<string, decimal>();
             foreach (var item in concentrationsDic)
             {
-                IAQIDic.Add(item.Key, GetIAQI(item.Key, item.Value));
+                if (item.Value.HasValue && item.Value >= 0)
+                {
+                    IAQIDic.Add(item.Key, GetIAQI(item.Key, item.Value.Value));
+                }
             }
             return IAQIDic;
         }
@@ -143,15 +155,18 @@ namespace Modules.AQE.AQCI
         /// <summary>
         /// 计算空气质量单项指数字典
         /// </summary>
-        /// <param name="data">空气质量基本评价项目浓度值百分位数数据接口</param>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>空气质量单项指数字典</returns>
-        public static Dictionary<string, decimal?> GetIAQIDic(IAQMData data)
+        public static Dictionary<string, decimal> GetIAQIDic(IAQMData data)
         {
-            Dictionary<string, decimal?> IAQIDic = new Dictionary<string, decimal?>();
+            Dictionary<string, decimal> IAQIDic = new Dictionary<string, decimal>();
             foreach (IPropertyAccessor property in IAQMDataProperties)
             {
                 decimal? value = property.GetValue(data) as decimal?;
-                IAQIDic.Add(property.Property.Name, GetIAQI(property.Property.Name, value));
+                if (value.HasValue && value >= 0)
+                {
+                    IAQIDic.Add(property.Property.Name, GetIAQI(property.Property.Name, value.Value));
+                }
             }
             return IAQIDic;
         }
@@ -161,7 +176,7 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="IAQIDic">空气质量单项指数字典</param>
         /// <returns>空气质量综合指数结果</returns>
-        public static AQCIResult GetAQCIResult(Dictionary<string, decimal?> IAQIDic)
+        public static AQCIResult GetAQCIResult(Dictionary<string, decimal> IAQIDic)
         {
             AQCIResult result = new AQCIResult();
             CalculateAQCI(result, IAQIDic);
@@ -169,11 +184,33 @@ namespace Modules.AQE.AQCI
         }
 
         /// <summary>
+        /// 计算空气质量综合指数结果
+        /// </summary>
+        /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
+        /// <returns>空气质量综合指数结果</returns>
+        public static AQCIResult GetAQCIResult(Dictionary<string, decimal?> concentrationsDic)
+        {
+            Dictionary<string, decimal> IAQIDic = GetIAQIDic(concentrationsDic);
+            return GetAQCIResult(IAQIDic);
+        }
+
+        /// <summary>
+        /// 计算空气质量综合指数结果
+        /// </summary>
+        /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
+        /// <returns>空气质量综合指数结果</returns>
+        public static AQCIResult GetAQCIResult(IAQMData data)
+        {
+            Dictionary<string, decimal> IAQIDic = GetIAQIDic(data);
+            return GetAQCIResult(IAQIDic);
+        }
+
+        /// <summary>
         /// 计算空气质量综合指数详细结果
         /// </summary>
         /// <param name="IAQIDic">空气质量单项指数字典</param>
         /// <returns>空气质量综合指数详细结果</returns>
-        public static AQCIResultDetail GetAQCIResultDetail(Dictionary<string, decimal?> IAQIDic)
+        public static AQCIResultDetail GetAQCIResultDetail(Dictionary<string, decimal> IAQIDic)
         {
             AQCIResultDetail result = new AQCIResultDetail();
             CalculateAQCI(result, IAQIDic);
@@ -186,7 +223,7 @@ namespace Modules.AQE.AQCI
         /// <param name="calculate">空气质量综合指数计算接口</param>
         public static void CalculateAQCI(IAQCICalculate calculate)
         {
-            Dictionary<string, decimal?> IAQIDic = GetIAQIDic(calculate);
+            Dictionary<string, decimal> IAQIDic = GetIAQIDic(calculate);
             CalculateAQCI(calculate, IAQIDic);
         }
 
@@ -196,7 +233,7 @@ namespace Modules.AQE.AQCI
         /// <param name="report">空气质量综合指数报表接口</param>
         public static void CalculateAQCI(IAQCIReport report)
         {
-            Dictionary<string, decimal?> IAQIDic = GetIAQIDic(report);
+            Dictionary<string, decimal> IAQIDic = GetIAQIDic(report);
             CalculateIAQI(report, IAQIDic);
             CalculateAQCI(report, IAQIDic);
         }

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Modules.AQE.AQI
 {
@@ -199,23 +197,16 @@ namespace Modules.AQE.AQI
         /// <param name="value">浓度值</param>
         /// <param name="concentrationLimits">浓度限值数组</param>
         /// <returns>空气质量分指数</returns>
-        private static int? GetIAQI(decimal? value, int[] concentrationLimits)
+        private static int GetIAQI(decimal value, int[] concentrationLimits)
         {
-            if (value.HasValue && value >= 0)
+            for (int i = 1; i < concentrationLimits.Length; i++)
             {
-                for (int i = 1; i < concentrationLimits.Length; i++)
+                if (value <= concentrationLimits[i])
                 {
-                    if (value <= concentrationLimits[i])
-                    {
-                        return (int)Math.Ceiling((IAQILimits[i] - IAQILimits[i - 1]) * (value.Value - concentrationLimits[i - 1]) / (concentrationLimits[i] - concentrationLimits[i - 1])) + IAQILimits[i - 1];
-                    }
+                    return (int)Math.Ceiling((IAQILimits[i] - IAQILimits[i - 1]) * (value - concentrationLimits[i - 1]) / (concentrationLimits[i] - concentrationLimits[i - 1])) + IAQILimits[i - 1];
                 }
-                return 500;
             }
-            else
-            {
-                return null;
-            }
+            return 500;
         }
 
         /// <summary>
@@ -224,12 +215,15 @@ namespace Modules.AQE.AQI
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <param name="concentrationLimitsDic">浓度限值数组字典</param>
         /// <returns>空气质量分指数字典</returns>
-        private static Dictionary<string, int?> GetIAQIDic(Dictionary<string, decimal?> concentrationsDic, Dictionary<string, int[]> concentrationLimitsDic)
+        private static Dictionary<string, int> GetIAQIDic(Dictionary<string, decimal?> concentrationsDic, Dictionary<string, int[]> concentrationLimitsDic)
         {
-            Dictionary<string, int?> IAQIDic = new Dictionary<string, int?>();
+            Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
             foreach (var item in concentrationsDic)
             {
-                IAQIDic.Add(item.Key, GetIAQI(item.Value, concentrationLimitsDic[item.Key]));
+                if (item.Value.HasValue && item.Value >= 0)
+                {
+                    IAQIDic.Add(item.Key, GetIAQI(item.Value.Value, concentrationLimitsDic[item.Key]));
+                }
             }
             return IAQIDic;
         }
@@ -240,13 +234,16 @@ namespace Modules.AQE.AQI
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <param name="concentrationLimitsDic">浓度限值数组字典</param>
         /// <returns>空气质量分指数字典</returns>
-        private static Dictionary<string, int?> GetIAQIDic(IAQMData data, Dictionary<string, int[]> concentrationLimitsDic)
+        private static Dictionary<string, int> GetIAQIDic(IAQMData data, Dictionary<string, int[]> concentrationLimitsDic)
         {
-            Dictionary<string, int?> IAQIDic = new Dictionary<string, int?>();
+            Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
             foreach (IPropertyAccessor property in IAQMDataProperties)
             {
                 decimal? value = property.GetValue(data) as decimal?;
-                IAQIDic.Add(property.Property.Name, GetIAQI(value, concentrationLimitsDic[property.Property.Name]));
+                if (value.HasValue && value >= 0)
+                {
+                    IAQIDic.Add(property.Property.Name, GetIAQI(value.Value, concentrationLimitsDic[property.Property.Name]));
+                }
             }
             return IAQIDic;
         }
@@ -256,7 +253,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="result">空气质量分指数数据接口</param>
         /// <param name="IAQIDic">空气质量分指数字典</param>
-        private static void CalculateIAQI(IIAQIData result, Dictionary<string, int?> IAQIDic)
+        private static void CalculateIAQI(IIAQIData result, Dictionary<string, int> IAQIDic)
         {
             foreach (var item in IAQIDic)
             {
@@ -269,9 +266,9 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="result">空气质量指数结果接口</param>
         /// <param name="IAQIDic">空气质量分指数字典</param>
-        private static void CalculateAQI(IAQIResult result, Dictionary<string, int?> IAQIDic)
+        private static void CalculateAQI(IAQIResult result, Dictionary<string, int> IAQIDic)
         {
-            if (IAQIDic.Any(o => o.Value.HasValue))
+            if (IAQIDic.Any())
             {
                 result.AQI = IAQIDic.Max(o => o.Value);
                 if (result.AQI > primaryPollutantLimit)
@@ -286,9 +283,9 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="result">空气质量指数详细结果接口</param>
         /// <param name="IAQIDic">空气质量分指数字典</param>
-        private static void CalculateAQI(IAQIResultDetail result, Dictionary<string, int?> IAQIDic)
+        private static void CalculateAQI(IAQIResultDetail result, Dictionary<string, int> IAQIDic)
         {
-            if (IAQIDic.Any(o => o.Value.HasValue))
+            if (IAQIDic.Any())
             {
                 result.AQI = IAQIDic.Max(o => o.Value);
                 if (result.AQI > primaryPollutantLimit)
@@ -336,7 +333,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="dic">空气质量基本评价项目浓度值字典</param>
         /// <returns>小时空气质量分指数字典</returns>
-        public static Dictionary<string, int?> GetHourIAQIDic(Dictionary<string, decimal?> dic)
+        public static Dictionary<string, int> GetHourIAQIDic(Dictionary<string, decimal?> dic)
         {
             return GetIAQIDic(dic, hourConcentrationLimitsDic);
         }
@@ -346,7 +343,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="dic">空气质量基本评价项目浓度值字典</param>
         /// <returns>日均空气质量分指数字典</returns>
-        public static Dictionary<string, int?> GetDayIAQIDic(Dictionary<string, decimal?> dic)
+        public static Dictionary<string, int> GetDayIAQIDic(Dictionary<string, decimal?> dic)
         {
             return GetIAQIDic(dic, dayConcentrationLimitsDic);
         }
@@ -356,7 +353,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="dic">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>小时空气质量分指数字典</returns>
-        public static Dictionary<string, int?> GetHourIAQIDic(IAQMData data)
+        public static Dictionary<string, int> GetHourIAQIDic(IAQMData data)
         {
             return GetIAQIDic(data, hourConcentrationLimitsDic);
         }
@@ -366,7 +363,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="dic">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>日均空气质量分指数字典</returns>
-        public static Dictionary<string, int?> GetDayIAQIDic(IAQMData data)
+        public static Dictionary<string, int> GetDayIAQIDic(IAQMData data)
         {
             return GetIAQIDic(data, dayConcentrationLimitsDic);
         }
@@ -417,7 +414,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="IAQIDic">空气质量分指数字典</param>
         /// <returns>空气质量指数结果</returns>
-        public static AQIResult GetAQIResult(Dictionary<string, int?> IAQIDic)
+        public static AQIResult GetAQIResult(Dictionary<string, int> IAQIDic)
         {
             AQIResult result = new AQIResult();
             CalculateAQI(result, IAQIDic);
@@ -432,7 +429,7 @@ namespace Modules.AQE.AQI
         /// <returns>小时空气质量指数结果</returns>
         public static AQIResult GetHourAQIResult(Dictionary<string, decimal?> dic)
         {
-            Dictionary<string, int?> IAQIDic = GetHourIAQIDic(dic);
+            Dictionary<string, int> IAQIDic = GetHourIAQIDic(dic);
             return GetAQIResult(IAQIDic);
         }
 
@@ -443,7 +440,7 @@ namespace Modules.AQE.AQI
         /// <returns>日均空气质量指数结果</returns>
         public static AQIResult GetDayAQIResult(Dictionary<string, decimal?> dic)
         {
-            Dictionary<string, int?> IAQIDic = GetDayIAQIDic(dic);
+            Dictionary<string, int> IAQIDic = GetDayIAQIDic(dic);
             return GetAQIResult(IAQIDic);
         }
 
@@ -454,7 +451,7 @@ namespace Modules.AQE.AQI
         /// <returns>小时空气质量指数结果</returns>
         public static AQIResult GetHourAQIResult(IAQMData data)
         {
-            Dictionary<string, int?> IAQIDic = GetHourIAQIDic(data);
+            Dictionary<string, int> IAQIDic = GetHourIAQIDic(data);
             return GetAQIResult(IAQIDic);
         }
 
@@ -465,7 +462,7 @@ namespace Modules.AQE.AQI
         /// <returns>日均空气质量指数结果</returns>
         public static AQIResult GetDayAQIResult(IAQMData data)
         {
-            Dictionary<string, int?> IAQIDic = GetDayIAQIDic(data);
+            Dictionary<string, int> IAQIDic = GetDayIAQIDic(data);
             return GetAQIResult(IAQIDic);
         }
 
@@ -474,7 +471,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="IAQIDic">空气质量分指数字典</param>
         /// <returns>空气质量指数详细结果</returns>
-        public static AQIResultDetail GetAQIResultDetail(Dictionary<string, int?> IAQIDic)
+        public static AQIResultDetail GetAQIResultDetail(Dictionary<string, int> IAQIDic)
         {
             AQIResultDetail result = new AQIResultDetail();
             CalculateAQI(result, IAQIDic);
@@ -488,7 +485,7 @@ namespace Modules.AQE.AQI
         /// <param name="calculate">空气质量指数计算接口</param>
         public static void CalculateHourAQI(IAQICalculate calculate)
         {
-            Dictionary<string, int?> IAQIDic = GetHourIAQIDic(calculate);
+            Dictionary<string, int> IAQIDic = GetHourIAQIDic(calculate);
             CalculateAQI(calculate, IAQIDic);
             CalculateAQIAbout(calculate);
         }
@@ -499,7 +496,7 @@ namespace Modules.AQE.AQI
         /// <param name="calculate">空气质量指数计算接口</param>
         public static void CalculateDayAQI(IAQICalculate calculate)
         {
-            Dictionary<string, int?> IAQIDic = GetDayIAQIDic(calculate);
+            Dictionary<string, int> IAQIDic = GetDayIAQIDic(calculate);
             CalculateAQI(calculate, IAQIDic);
             CalculateAQIAbout(calculate);
         }
@@ -510,7 +507,7 @@ namespace Modules.AQE.AQI
         /// <param name="calculate">空气质量指数报表接口</param>
         public static void CalculateHourAQI(IAQIReport report)
         {
-            Dictionary<string, int?> IAQIDic = GetHourIAQIDic(report);
+            Dictionary<string, int> IAQIDic = GetHourIAQIDic(report);
             CalculateIAQI(report, IAQIDic);
             CalculateAQI(report, IAQIDic);
             CalculateAQIAbout(report);
@@ -522,7 +519,7 @@ namespace Modules.AQE.AQI
         /// <param name="calculate">空气质量指数报表接口</param>
         public static void CalculateDayAQI(IAQIReport report)
         {
-            Dictionary<string, int?> IAQIDic = GetDayIAQIDic(report);
+            Dictionary<string, int> IAQIDic = GetDayIAQIDic(report);
             CalculateIAQI(report, IAQIDic);
             CalculateAQI(report, IAQIDic);
             CalculateAQIAbout(report);
@@ -536,7 +533,14 @@ namespace Modules.AQE.AQI
         /// <returns>小时空气质量分指数</returns>
         public static int? GetHourIAQI(string pollutant, decimal? value)
         {
-            return GetIAQI(value, hourConcentrationLimitsDic[pollutant]);
+            if (value.HasValue && value >= 0)
+            {
+                return GetIAQI(value.Value, hourConcentrationLimitsDic[pollutant]);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -547,7 +551,14 @@ namespace Modules.AQE.AQI
         /// <returns>日均空气质量分指数</returns>
         public static int? GetDayIAQI(string pollutant, decimal? value)
         {
-            return GetIAQI(value, dayConcentrationLimitsDic[pollutant]);
+            if (value.HasValue && value >= 0)
+            {
+                return GetIAQI(value.Value, dayConcentrationLimitsDic[pollutant]);
+            }
+            else
+            {
+                return null;
+            }
         }
         #endregion
     }
