@@ -210,6 +210,25 @@ namespace Modules.AQE.AQI
         }
 
         /// <summary>
+        /// 计算空气质量分指数
+        /// </summary>
+        /// <param name="value">浓度值</param>
+        /// <param name="concentrationLimits">浓度限值数组</param>
+        /// <returns>空气质量分指数</returns>
+        private static int? GetIAQI(decimal? value, int[] concentrationLimits)
+        {
+            int? result = null;
+            if (value.HasValue && value >= 0)
+            {
+                if (concentrationLimits.Length == 8 || value <= concentrationLimits.Last())
+                {
+                    result = GetIAQI(value.Value, concentrationLimits);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 计算空气质量分指数字典
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
@@ -222,7 +241,11 @@ namespace Modules.AQE.AQI
             {
                 if (item.Value.HasValue && item.Value >= 0)
                 {
-                    IAQIDic.Add(item.Key, GetIAQI(item.Value.Value, concentrationLimitsDic[item.Key]));
+                    int[] concentrationLimits = concentrationLimitsDic[item.Key];
+                    if (concentrationLimits.Length == 8 || item.Value <= concentrationLimits.Last())
+                    {
+                        IAQIDic.Add(item.Key, GetIAQI(item.Value.Value, concentrationLimits));
+                    }
                 }
             }
             return IAQIDic;
@@ -242,7 +265,11 @@ namespace Modules.AQE.AQI
                 decimal? value = property.GetValue(data) as decimal?;
                 if (value.HasValue && value >= 0)
                 {
-                    IAQIDic.Add(property.Property.Name, GetIAQI(value.Value, concentrationLimitsDic[property.Property.Name]));
+                    int[] concentrationLimits = concentrationLimitsDic[property.Property.Name];
+                    if (concentrationLimits.Length == 8 || value <= concentrationLimits.Last())
+                    {
+                        IAQIDic.Add(property.Property.Name, GetIAQI(value.Value, concentrationLimits));
+                    }
                 }
             }
             return IAQIDic;
@@ -533,14 +560,7 @@ namespace Modules.AQE.AQI
         /// <returns>小时空气质量分指数</returns>
         public static int? GetHourIAQI(string pollutant, decimal? value)
         {
-            if (value.HasValue && value >= 0)
-            {
-                return GetIAQI(value.Value, hourConcentrationLimitsDic[pollutant]);
-            }
-            else
-            {
-                return null;
-            }
+            return GetIAQI(value, hourConcentrationLimitsDic[pollutant]);
         }
 
         /// <summary>
@@ -551,14 +571,7 @@ namespace Modules.AQE.AQI
         /// <returns>日均空气质量分指数</returns>
         public static int? GetDayIAQI(string pollutant, decimal? value)
         {
-            if (value.HasValue && value >= 0)
-            {
-                return GetIAQI(value.Value, dayConcentrationLimitsDic[pollutant]);
-            }
-            else
-            {
-                return null;
-            }
+            return GetIAQI(value, dayConcentrationLimitsDic[pollutant]);
         }
         #endregion
     }
