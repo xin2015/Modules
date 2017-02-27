@@ -60,6 +60,7 @@
     <Compile Include="AQI\IAQIReport.cs" />
     <Compile Include="AQI\IAQIResult.cs" />
     <Compile Include="AQI\IAQIResultDetail.cs" />
+    <Compile Include="Calculator.cs" />
     <Compile Include="IAQMData.cs" />
     <Compile Include="AQI\IIAQIData.cs" />
     <Compile Include="AQCI\IIAQIData.cs" />
