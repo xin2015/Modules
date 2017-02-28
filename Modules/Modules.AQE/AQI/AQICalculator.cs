@@ -9,7 +9,7 @@ namespace Modules.AQE.AQI
     /// <summary>
     /// 空气质量指数计算器
     /// </summary>
-    public class AQICalculator
+    public class AQICalculator : AQCalculator
     {
         #region 字段参数
         #region 浓度限值
@@ -76,14 +76,6 @@ namespace Modules.AQE.AQI
         /// </summary>
         private static int nonAttainmentPollutantLimit = 100;
         /// <summary>
-        /// IAQMData属性
-        /// </summary>
-        private static IPropertyAccessor[] IAQMDataProperties;
-        /// <summary>
-        /// IIAQIData属性字典
-        /// </summary>
-        private static Dictionary<string, IPropertyAccessor> IIAQIDataPropertiesDic;
-        /// <summary>
         /// 日报浓度限值字典
         /// </summary>
         private static Dictionary<string, int[]> dayConcentrationLimitsDic;
@@ -95,13 +87,17 @@ namespace Modules.AQE.AQI
         #endregion
         #region 属性参数
         /// <summary>
+        /// IIAQIData属性字典
+        /// </summary>
+        public static Dictionary<string, IPropertyAccessor> IIAQIDataPropertiesDic { get; }
+        /// <summary>
         /// AQI相关信息集合
         /// </summary>
-        public static List<AQIAbout> AQIAbouts { get; set; }
+        public static List<AQIAbout> AQIAbouts { get; }
         /// <summary>
         /// AQI相关信息字典
         /// </summary>
-        public static Dictionary<string, AQIAbout> AQIAboutDic { get; set; }
+        public static Dictionary<string, AQIAbout> AQIAboutDic { get; }
         #endregion
 
         static AQICalculator()
@@ -123,7 +119,6 @@ namespace Modules.AQE.AQI
                 {"PM25",PM25HourConcentrationLimits}
             };
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            IAQMDataProperties = typeof(IAQMData).GetProperties().Select(o => factory.Get(o)).ToArray();
             PropertyInfo[] IIAQIDataProperties = typeof(IIAQIData).GetProperties();
             IIAQIDataPropertiesDic = new Dictionary<string, IPropertyAccessor>();
             foreach (string pollutant in dayConcentrationLimitsDic.Keys)
@@ -209,6 +204,18 @@ namespace Modules.AQE.AQI
             return 500;
         }
 
+        private static decimal GetConcentration(int IAQI, int[] concentrationLimits)
+        {
+            for (int i = 1; i < concentrationLimits.Length; i++)
+            {
+                if (IAQI <= IAQILimits[i])
+                {
+                    return Math.Round((decimal)(concentrationLimits[i] - concentrationLimits[i - 1]) * (IAQI - IAQILimits[i - 1]) / (IAQILimits[i] - IAQILimits[i - 1])) + concentrationLimits[i - 1];
+                }
+            }
+            return concentrationLimits.Last();
+        }
+
         /// <summary>
         /// 计算空气质量分指数
         /// </summary>
@@ -260,15 +267,15 @@ namespace Modules.AQE.AQI
         private static Dictionary<string, int> GetIAQIDic(IAQMData data, Dictionary<string, int[]> concentrationLimitsDic)
         {
             Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
-            foreach (IPropertyAccessor property in IAQMDataProperties)
+            foreach (var item in IAQMDataPropertiesDic)
             {
-                decimal? value = property.GetValue(data) as decimal?;
+                decimal? value = item.Value.GetValue(data) as decimal?;
                 if (value.HasValue && value >= 0)
                 {
-                    int[] concentrationLimits = concentrationLimitsDic[property.Property.Name];
+                    int[] concentrationLimits = concentrationLimitsDic[item.Key];
                     if (concentrationLimits.Length == 8 || value <= concentrationLimits.Last())
                     {
-                        IAQIDic.Add(property.Property.Name, GetIAQI(value.Value, concentrationLimits));
+                        IAQIDic.Add(item.Key, GetIAQI(value.Value, concentrationLimits));
                     }
                 }
             }

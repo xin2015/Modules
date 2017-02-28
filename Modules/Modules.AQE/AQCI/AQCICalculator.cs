@@ -9,21 +9,19 @@ namespace Modules.AQE.AQCI
     /// <summary>
     /// 空气质量综合指数计算器
     /// </summary>
-    public class AQCICalculator
+    public class AQCICalculator : AQCalculator
     {
         #region 字段参数
-        /// <summary>
-        /// IAQMData属性
-        /// </summary>
-        private static IPropertyAccessor[] IAQMDataProperties;
-        /// <summary>
-        /// ISAQIData属性字典
-        /// </summary>
-        private static Dictionary<string, IPropertyAccessor> IIAQIDataPropertiesDic;
         /// <summary>
         /// 污染物监测项浓度二级标准字典
         /// </summary>
         private static Dictionary<string, int> limitDic;
+        #endregion
+        #region 属性参数
+        /// <summary>
+        /// ISAQIData属性字典
+        /// </summary>
+        public static Dictionary<string, IPropertyAccessor> IIAQIDataPropertiesDic { get; }
         #endregion
 
         static AQCICalculator()
@@ -37,7 +35,6 @@ namespace Modules.AQE.AQCI
                 {"PM25",35}
             };
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            IAQMDataProperties = typeof(IAQMData).GetProperties().Select(o => factory.Get(o)).ToArray();
             PropertyInfo[] IIAQIDataProperties = typeof(IIAQIData).GetProperties();
             IIAQIDataPropertiesDic = new Dictionary<string, IPropertyAccessor>();
             foreach (string pollutant in limitDic.Keys)
@@ -160,12 +157,12 @@ namespace Modules.AQE.AQCI
         public static Dictionary<string, decimal> GetIAQIDic(IAQMData data)
         {
             Dictionary<string, decimal> IAQIDic = new Dictionary<string, decimal>();
-            foreach (IPropertyAccessor property in IAQMDataProperties)
+            foreach (var item in IAQMDataPropertiesDic)
             {
-                decimal? value = property.GetValue(data) as decimal?;
+                decimal? value = item.Value.GetValue(data) as decimal?;
                 if (value.HasValue && value >= 0)
                 {
-                    IAQIDic.Add(property.Property.Name, GetIAQI(property.Property.Name, value.Value));
+                    IAQIDic.Add(item.Key, GetIAQI(item.Key, value.Value));
                 }
             }
             return IAQIDic;
