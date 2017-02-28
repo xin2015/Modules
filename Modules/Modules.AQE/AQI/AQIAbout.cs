@@ -29,5 +29,9 @@
         /// 建议采取的措施
         /// </summary>
         public string Measure { get; set; }
+        /// <summary>
+        /// 空气质量等级数字表示
+        /// </summary>
+        public int NumberLevel { get; set; }
     }
 }

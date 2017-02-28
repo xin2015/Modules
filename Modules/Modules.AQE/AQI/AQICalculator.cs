@@ -130,6 +130,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 0,
                 Level = "一级",
+                NumberLevel = 1,
                 Type = "优",
                 Color = "绿色",
                 Effect = "空气质量令人满意，基本无空气污染",
@@ -139,6 +140,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 51,
                 Level = "二级",
+                NumberLevel = 2,
                 Type = "良",
                 Color = "黄色",
                 Effect = "空气质量可接受，但某些污染物可能对极少数异常敏感人群健康有较弱影响",
@@ -148,6 +150,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 101,
                 Level = "三级",
+                NumberLevel = 3,
                 Type = "轻度污染",
                 Color = "橙色",
                 Effect = "易感人群症状有轻度加剧，健康人群出现刺激症状",
@@ -157,6 +160,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 151,
                 Level = "四级",
+                NumberLevel = 4,
                 Type = "中度污染",
                 Color = "红色",
                 Effect = "进一步加剧易感人群症状，可能对健康人群心脏、呼吸系统有影响",
@@ -166,6 +170,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 201,
                 Level = "五级",
+                NumberLevel = 5,
                 Type = "重度污染",
                 Color = "紫色",
                 Effect = "心脏病和肺病患者症状显著加剧，运动耐受力降低，健康人群普遍出现症状",
@@ -175,6 +180,7 @@ namespace Modules.AQE.AQI
             {
                 AQILowLimit = 301,
                 Level = "六级",
+                NumberLevel = 6,
                 Type = "严重污染",
                 Color = "褐红色",
                 Effect = "健康人群运动耐受力降低，有明显强烈症状，提前出现某些疾病",
