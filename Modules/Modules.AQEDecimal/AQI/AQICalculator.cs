@@ -198,7 +198,7 @@ namespace Modules.AQE.AQI
         /// <param name="value">浓度值</param>
         /// <param name="concentrationLimits">浓度限值数组</param>
         /// <returns>空气质量分指数</returns>
-        private static int GetIAQI(double value, int[] concentrationLimits)
+        private static int GetIAQI(decimal value, int[] concentrationLimits)
         {
             for (int i = 1; i < concentrationLimits.Length; i++)
             {
@@ -210,13 +210,13 @@ namespace Modules.AQE.AQI
             return 500;
         }
 
-        private static double GetConcentration(int IAQI, int[] concentrationLimits)
+        private static decimal GetConcentration(int IAQI, int[] concentrationLimits)
         {
             for (int i = 1; i < concentrationLimits.Length; i++)
             {
                 if (IAQI <= IAQILimits[i])
                 {
-                    return Math.Round((double)(concentrationLimits[i] - concentrationLimits[i - 1]) * (IAQI - IAQILimits[i - 1]) / (IAQILimits[i] - IAQILimits[i - 1])) + concentrationLimits[i - 1];
+                    return Math.Round((decimal)(concentrationLimits[i] - concentrationLimits[i - 1]) * (IAQI - IAQILimits[i - 1]) / (IAQILimits[i] - IAQILimits[i - 1])) + concentrationLimits[i - 1];
                 }
             }
             return concentrationLimits.Last();
@@ -228,7 +228,7 @@ namespace Modules.AQE.AQI
         /// <param name="value">浓度值</param>
         /// <param name="concentrationLimits">浓度限值数组</param>
         /// <returns>空气质量分指数</returns>
-        private static int? GetIAQI(double? value, int[] concentrationLimits)
+        private static int? GetIAQI(decimal? value, int[] concentrationLimits)
         {
             int? result = null;
             if (value.HasValue && value >= 0)
@@ -247,7 +247,7 @@ namespace Modules.AQE.AQI
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <param name="concentrationLimitsDic">浓度限值数组字典</param>
         /// <returns>空气质量分指数字典</returns>
-        private static Dictionary<string, int> GetIAQIDic(Dictionary<string, double?> concentrationsDic, Dictionary<string, int[]> concentrationLimitsDic)
+        private static Dictionary<string, int> GetIAQIDic(Dictionary<string, decimal?> concentrationsDic, Dictionary<string, int[]> concentrationLimitsDic)
         {
             Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
             foreach (var item in concentrationsDic)
@@ -275,7 +275,7 @@ namespace Modules.AQE.AQI
             Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
             foreach (var item in IAQMDataPropertiesDic)
             {
-                double? value = item.Value.GetValue(data) as double?;
+                decimal? value = item.Value.GetValue(data) as decimal?;
                 if (value.HasValue && value >= 0)
                 {
                     int[] concentrationLimits = concentrationLimitsDic[item.Key];
@@ -373,7 +373,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <returns>小时空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetHourIAQIDic(Dictionary<string, double?> concentrationsDic)
+        public static Dictionary<string, int> GetHourIAQIDic(Dictionary<string, decimal?> concentrationsDic)
         {
             return GetIAQIDic(concentrationsDic, hourConcentrationLimitsDic);
         }
@@ -383,7 +383,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目浓度值字典</param>
         /// <returns>日均空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetDayIAQIDic(Dictionary<string, double?> concentrationsDic)
+        public static Dictionary<string, int> GetDayIAQIDic(Dictionary<string, decimal?> concentrationsDic)
         {
             return GetIAQIDic(concentrationsDic, dayConcentrationLimitsDic);
         }
@@ -467,7 +467,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目小时浓度值字典</param>
         /// <returns>小时空气质量指数结果</returns>
-        public static AQIResult GetHourAQIResult(Dictionary<string, double?> concentrationsDic)
+        public static AQIResult GetHourAQIResult(Dictionary<string, decimal?> concentrationsDic)
         {
             Dictionary<string, int> IAQIDic = GetHourIAQIDic(concentrationsDic);
             return GetAQIResult(IAQIDic);
@@ -478,7 +478,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="concentrationsDic">空气质量基本评价项目日均浓度值字典</param>
         /// <returns>日均空气质量指数结果</returns>
-        public static AQIResult GetDayAQIResult(Dictionary<string, double?> concentrationsDic)
+        public static AQIResult GetDayAQIResult(Dictionary<string, decimal?> concentrationsDic)
         {
             Dictionary<string, int> IAQIDic = GetDayIAQIDic(concentrationsDic);
             return GetAQIResult(IAQIDic);
@@ -571,7 +571,7 @@ namespace Modules.AQE.AQI
         /// <param name="pollutant">污染物监测项，命名同IAQMData</param>
         /// <param name="value">浓度值</param>
         /// <returns>小时空气质量分指数</returns>
-        public static int? GetHourIAQI(string pollutant, double? value)
+        public static int? GetHourIAQI(string pollutant, decimal? value)
         {
             return GetIAQI(value, hourConcentrationLimitsDic[pollutant]);
         }
@@ -582,7 +582,7 @@ namespace Modules.AQE.AQI
         /// <param name="pollutant">污染物监测项，命名同IAQMData</param>
         /// <param name="value">浓度值</param>
         /// <returns>日均空气质量分指数</returns>
-        public static int? GetDayIAQI(string pollutant, double? value)
+        public static int? GetDayIAQI(string pollutant, decimal? value)
         {
             return GetIAQI(value, dayConcentrationLimitsDic[pollutant]);
         }

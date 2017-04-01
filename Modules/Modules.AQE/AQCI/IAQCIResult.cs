@@ -8,7 +8,7 @@
         /// <summary>
         /// 空气质量综合指数
         /// </summary>
-        decimal? AQCI { get; set; }
+        double? AQCI { get; set; }
         /// <summary>
         /// 首要污染物
         /// </summary>

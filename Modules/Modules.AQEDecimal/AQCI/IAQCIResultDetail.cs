@@ -8,6 +8,6 @@
         /// <summary>
         /// 空气质量最大指数
         /// </summary>
-        double? AQMI { get; set; }
+        decimal? AQMI { get; set; }
     }
 }

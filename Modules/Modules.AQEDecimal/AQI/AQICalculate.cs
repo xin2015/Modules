@@ -8,27 +8,27 @@
         /// <summary>
         /// 二氧化硫（SO2）平均浓度（μg/m³）
         /// </summary>
-        public double? SO2 { get; set; }
+        public decimal? SO2 { get; set; }
         /// <summary>
         /// 二氧化氮（NO2）平均浓度（μg/m³）
         /// </summary>
-        public double? NO2 { get; set; }
+        public decimal? NO2 { get; set; }
         /// <summary>
         /// 颗粒物（粒径小于等于10μm）平均浓度（μg/m³）
         /// </summary>
-        public double? PM10 { get; set; }
+        public decimal? PM10 { get; set; }
         /// <summary>
         /// 一氧化碳（CO）平均浓度（mg/m³）
         /// </summary>
-        public double? CO { get; set; }
+        public decimal? CO { get; set; }
         /// <summary>
         /// 臭氧（O3）平均浓度（μg/m³）
         /// </summary>
-        public double? O3 { get; set; }
+        public decimal? O3 { get; set; }
         /// <summary>
         /// 颗粒物（粒径小于等于2.5μm）平均浓度（μg/m³）
         /// </summary>
-        public double? PM25 { get; set; }
+        public decimal? PM25 { get; set; }
         /// <summary>
         /// 空气质量指数
         /// </summary>
