@@ -270,7 +270,7 @@ namespace Modules.AQE.AQI
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <param name="concentrationLimitsDic">浓度限值数组字典</param>
         /// <returns>空气质量分指数字典</returns>
-        private static Dictionary<string, int> GetIAQIDic(IAQMData data, Dictionary<string, int[]> concentrationLimitsDic)
+        private static Dictionary<string, int> GetIAQIDic(IAQData data, Dictionary<string, int[]> concentrationLimitsDic)
         {
             Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
             foreach (var item in IAQMDataPropertiesDic)
@@ -393,7 +393,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>小时空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetHourIAQIDic(IAQMData data)
+        public static Dictionary<string, int> GetHourIAQIDic(IAQData data)
         {
             return GetIAQIDic(data, hourConcentrationLimitsDic);
         }
@@ -403,7 +403,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>日均空气质量分指数字典</returns>
-        public static Dictionary<string, int> GetDayIAQIDic(IAQMData data)
+        public static Dictionary<string, int> GetDayIAQIDic(IAQData data)
         {
             return GetIAQIDic(data, dayConcentrationLimitsDic);
         }
@@ -489,7 +489,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>小时空气质量指数结果</returns>
-        public static AQIResult GetHourAQIResult(IAQMData data)
+        public static AQIResult GetHourAQIResult(IAQData data)
         {
             Dictionary<string, int> IAQIDic = GetHourIAQIDic(data);
             return GetAQIResult(IAQIDic);
@@ -500,7 +500,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>日均空气质量指数结果</returns>
-        public static AQIResult GetDayAQIResult(IAQMData data)
+        public static AQIResult GetDayAQIResult(IAQData data)
         {
             Dictionary<string, int> IAQIDic = GetDayIAQIDic(data);
             return GetAQIResult(IAQIDic);

@@ -3,7 +3,7 @@
     /// <summary>
     /// 空气质量指数计算接口
     /// </summary>
-    public interface IAQICalculate : IAQMData, IAQIResult
+    public interface IAQICalculate : IAQData, IAQIResult
     {
     }
 }

@@ -63,7 +63,7 @@
     <Compile Include="AQI\IAQIResult.cs" />
     <Compile Include="AQI\IAQIResultDetail.cs" />
     <Compile Include="AQI\IIAQIData.cs" />
-    <Compile Include="IAQMData.cs" />
+    <Compile Include="IAQData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
