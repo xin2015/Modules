@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQE", "Modules.AQE\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQEDecimal", "Modules.AQEDecimal\Modules.AQEDecimal.csproj", "{C0345BB3-F942-4C3B-85C9-573F281C2162}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Basic", "Modules.Basic\Modules.Basic.csproj", "{C005D493-F80C-4348-9BA4-D7E01F5D5D7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C0345BB3-F942-4C3B-85C9-573F281C2162}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0345BB3-F942-4C3B-85C9-573F281C2162}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0345BB3-F942-4C3B-85C9-573F281C2162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C005D493-F80C-4348-9BA4-D7E01F5D5D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C005D493-F80C-4348-9BA4-D7E01F5D5D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C005D493-F80C-4348-9BA4-D7E01F5D5D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C005D493-F80C-4348-9BA4-D7E01F5D5D7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
