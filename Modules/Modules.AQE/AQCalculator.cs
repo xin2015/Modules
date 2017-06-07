@@ -21,7 +21,7 @@ namespace Modules.AQE
         static AQCalculator()
         {
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            PropertyInfo[] IAQMDataProperties = typeof(IAQData).GetProperties();
+            PropertyInfo[] IAQMDataProperties = typeof(IAirQuality).GetProperties();
             IAQMDataPropertiesDic = new Dictionary<string, IPropertyAccessor>();
             foreach (PropertyInfo property in IAQMDataProperties)
             {

@@ -154,7 +154,7 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>空气质量单项指数字典</returns>
-        public static Dictionary<string, double> GetIAQIDic(IAQData data)
+        public static Dictionary<string, double> GetIAQIDic(IAirQuality data)
         {
             Dictionary<string, double> IAQIDic = new Dictionary<string, double>();
             foreach (var item in IAQMDataPropertiesDic)
@@ -196,7 +196,7 @@ namespace Modules.AQE.AQCI
         /// </summary>
         /// <param name="data">空气质量基本评价项目浓度值数据接口</param>
         /// <returns>空气质量综合指数结果</returns>
-        public static AQCIResult GetAQCIResult(IAQData data)
+        public static AQCIResult GetAQCIResult(IAirQuality data)
         {
             Dictionary<string, double> IAQIDic = GetIAQIDic(data);
             return GetAQCIResult(IAQIDic);
