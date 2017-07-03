@@ -3,7 +3,7 @@
     /// <summary>
     /// 空气质量分指数数据接口
     /// </summary>
-    public interface IIAQIData
+    public interface IIAQI
     {
         /// <summary>
         /// 二氧化硫（SO2）分指数

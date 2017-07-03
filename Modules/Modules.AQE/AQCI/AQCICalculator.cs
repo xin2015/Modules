@@ -157,7 +157,7 @@ namespace Modules.AQE.AQCI
         public static Dictionary<string, double> GetIAQIDic(IAirQuality data)
         {
             Dictionary<string, double> IAQIDic = new Dictionary<string, double>();
-            foreach (var item in IAQMDataPropertiesDic)
+            foreach (var item in IAirQualityPropertyAccessors)
             {
                 double? value = item.Value.GetValue(data) as double?;
                 if (value.HasValue && value >= 0)

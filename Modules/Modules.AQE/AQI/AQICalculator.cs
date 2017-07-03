@@ -9,14 +9,61 @@ namespace Modules.AQE.AQI
     /// <summary>
     /// 空气质量指数计算器
     /// </summary>
-    public class AQICalculator : AQCalculator
+    public class AQICalculator : AirQualityCalculator
     {
-        #region 字段参数
-        #region 浓度限值
         /// <summary>
         /// 空气质量分指数限值数组
         /// </summary>
-        private static int[] IAQILimits = { 0, 50, 100, 150, 200, 300, 400, 500 };
+        protected double[] IAQILimits { get; set; }
+        /// <summary>
+        /// 二氧化硫（SO2）平均浓度限值
+        /// </summary>
+        protected double[] SO2ConcentrationLimits { get; set; }
+        /// <summary>
+        /// 二氧化氮（NO2）平均浓度限值
+        /// </summary>
+        protected double[] NO2ConcentrationLimits { get; set; }
+        /// <summary>
+        /// 可吸入颗粒物（PM10）平均浓度限值
+        /// </summary>
+        protected double[] PM10ConcentrationLimits { get; set; }
+        /// <summary>
+        /// 一氧化碳（CO）平均浓度限值
+        /// </summary>
+        protected double[] COConcentrationLimits { get; set; }
+        /// <summary>
+        /// 臭氧（O3）平均浓度限值
+        /// </summary>
+        protected double[] O3ConcentrationLimits { get; set; }
+        /// <summary>
+        /// 细颗粒物（PM2.5）平均浓度限值
+        /// </summary>
+        protected double[] PM25ConcentrationLimits { get; set; }
+
+        /// <summary>
+        /// 污染物浓度限值字典
+        /// </summary>
+        protected Dictionary<string,double[]> ConcentrationLimitsDic { get; set; }
+
+        /// <summary>
+        /// 首要污染物限值
+        /// </summary>
+        protected double PrimaryPollutantLimit { get; set; }
+        /// <summary>
+        /// 超标污染物限值
+        /// </summary>
+        protected double NonAttainmentPollutantLimit { get; set; }
+
+        public AQICalculator()
+        {
+            IAQILimits = new double[] { 0, 50, 100, 150, 200, 300, 400, 500 };
+            PrimaryPollutantLimit = 50;
+            NonAttainmentPollutantLimit = 100;
+        }
+
+
+        #region 字段参数
+        #region 浓度限值
         /// <summary>
         /// 二氧化硫（SO2）24小时平均浓度限值
         /// </summary>
@@ -66,24 +113,6 @@ namespace Modules.AQE.AQI
         /// </summary>
         private static int[] PM25HourConcentrationLimits = { 0, 35, 75, 115, 150, 250, 350, 500 };
         #endregion
-        #region 其他
-        /// <summary>
-        /// 首要污染物限值
-        /// </summary>
-        private static int primaryPollutantLimit = 50;
-        /// <summary>
-        /// 超标污染物限值
-        /// </summary>
-        private static int nonAttainmentPollutantLimit = 100;
-        /// <summary>
-        /// 日报浓度限值字典
-        /// </summary>
-        private static Dictionary<string, int[]> dayConcentrationLimitsDic;
-        /// <summary>
-        /// 实时报浓度限值字典
-        /// </summary>
-        private static Dictionary<string, int[]> hourConcentrationLimitsDic;
-        #endregion
         #endregion
         #region 属性参数
         /// <summary>
@@ -119,7 +148,7 @@ namespace Modules.AQE.AQI
                 {"PM25",PM25HourConcentrationLimits}
             };
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            PropertyInfo[] IIAQIDataProperties = typeof(IIAQIData).GetProperties();
+            PropertyInfo[] IIAQIDataProperties = typeof(IIAQI).GetProperties();
             IIAQIDataPropertiesDic = new Dictionary<string, IPropertyAccessor>();
             foreach (string pollutant in dayConcentrationLimitsDic.Keys)
             {
@@ -273,7 +302,7 @@ namespace Modules.AQE.AQI
         private static Dictionary<string, int> GetIAQIDic(IAirQuality data, Dictionary<string, int[]> concentrationLimitsDic)
         {
             Dictionary<string, int> IAQIDic = new Dictionary<string, int>();
-            foreach (var item in IAQMDataPropertiesDic)
+            foreach (var item in IAirQualityPropertyAccessors)
             {
                 double? value = item.Value.GetValue(data) as double?;
                 if (value.HasValue && value >= 0)
@@ -293,7 +322,7 @@ namespace Modules.AQE.AQI
         /// </summary>
         /// <param name="result">空气质量分指数数据接口</param>
         /// <param name="IAQIDic">空气质量分指数字典</param>
-        private static void CalculateIAQI(IIAQIData result, Dictionary<string, int> IAQIDic)
+        private static void CalculateIAQI(IIAQI result, Dictionary<string, int> IAQIDic)
         {
             foreach (var item in IAQIDic)
             {

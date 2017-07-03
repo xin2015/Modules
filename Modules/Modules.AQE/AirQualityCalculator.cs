@@ -11,21 +11,21 @@ namespace Modules.AQE
     /// <summary>
     /// 空气质量计算器
     /// </summary>
-    public class AQCalculator
+    public class AirQualityCalculator
     {
         /// <summary>
         /// 空气质量监测基本项目浓度值/百分位数数据接口属性字典
         /// </summary>
-        public static Dictionary<string, IPropertyAccessor> IAQMDataPropertiesDic { get; }
+        public Dictionary<string, IPropertyAccessor> IAirQualityPropertyAccessors { get; }
 
-        static AQCalculator()
+        public AirQualityCalculator()
         {
             PropertyAccessorFactory factory = new PropertyAccessorFactory();
-            PropertyInfo[] IAQMDataProperties = typeof(IAirQuality).GetProperties();
-            IAQMDataPropertiesDic = new Dictionary<string, IPropertyAccessor>();
-            foreach (PropertyInfo property in IAQMDataProperties)
+            PropertyInfo[] IAirQualityProperties = typeof(IAirQuality).GetProperties();
+            IAirQualityPropertyAccessors = new Dictionary<string, IPropertyAccessor>();
+            foreach (PropertyInfo property in IAirQualityProperties)
             {
-                IAQMDataPropertiesDic.Add(property.Name, factory.Get(property));
+                IAirQualityPropertyAccessors.Add(property.Name, factory.Get(property));
             }
         }
     }
