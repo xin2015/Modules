@@ -45,25 +45,22 @@
     <Compile Include="AQCI\AQCICalculator.cs" />
     <Compile Include="AQCI\AQCIReport.cs" />
     <Compile Include="AQCI\AQCIResult.cs" />
-    <Compile Include="AQCI\AQCIResultDetail.cs" />
     <Compile Include="AQI\AQIAbout.cs" />
     <Compile Include="AQI\AQICalculate.cs" />
     <Compile Include="AQI\AQICalculator.cs" />
     <Compile Include="AQI\AQIReport.cs" />
     <Compile Include="AQI\AQIResult.cs" />
-    <Compile Include="AQI\AQIResultDetail.cs" />
     <Compile Include="AQCI\IAQCICalculate.cs" />
     <Compile Include="AQCI\IAQCIReport.cs" />
     <Compile Include="AQCI\IAQCIResult.cs" />
-    <Compile Include="AQCI\IAQCIResultDetail.cs" />
+    <Compile Include="AQI\DayAQICalculator.cs" />
+    <Compile Include="AQI\HourAQICalculator.cs" />
     <Compile Include="AQI\IAQICalculate.cs" />
     <Compile Include="AQI\IAQIReport.cs" />
     <Compile Include="AQI\IAQIResult.cs" />
-    <Compile Include="AQI\IAQIResultDetail.cs" />
     <Compile Include="AirQualityCalculator.cs" />
     <Compile Include="IAirQuality.cs" />
-    <Compile Include="AQI\IIAQI.cs" />
-    <Compile Include="AQCI\IIAQIData.cs" />
+    <Compile Include="IIAQI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
