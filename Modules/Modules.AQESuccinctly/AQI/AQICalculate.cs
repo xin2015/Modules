@@ -32,7 +32,7 @@
         /// <summary>
         /// 空气质量指数
         /// </summary>
-        public int? AQI { get; set; }
+        public double? AQI { get; set; }
         /// <summary>
         /// 首要污染物
         /// </summary>

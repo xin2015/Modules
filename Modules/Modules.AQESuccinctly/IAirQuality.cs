@@ -3,7 +3,7 @@
     /// <summary>
     /// 空气质量基本评价项目浓度值/百分位数数据接口
     /// </summary>
-    public interface IAQData
+    public interface IAirQuality
     {
         /// <summary>
         /// 二氧化硫（SO2）平均浓度（μg/m³）/第98百分位数

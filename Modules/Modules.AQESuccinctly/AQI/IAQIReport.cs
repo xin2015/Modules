@@ -3,7 +3,7 @@
     /// <summary>
     /// 空气质量指数报表接口
     /// </summary>
-    public interface IAQIReport : IAQICalculate, IIAQIData
+    public interface IAQIReport : IAQICalculate, IIAQI
     {
         /// <summary>
         /// 空气质量指数级别

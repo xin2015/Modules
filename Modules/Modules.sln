@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Basic", "Modules.Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.Basic40", "Modules.Basic40\Modules.Basic40.csproj", "{24A1A24E-22EF-49B1-83E2-7BD0AB73BDE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQEOld", "Modules.AQEOld\Modules.AQEOld.csproj", "{8D2FDABF-AE22-4CC5-9C3A-0A95A4061E3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modules.AQESuccinctly", "Modules.AQESuccinctly\Modules.AQESuccinctly.csproj", "{98EBC742-7A41-4E17-91D4-B4EA5C44BE83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{24A1A24E-22EF-49B1-83E2-7BD0AB73BDE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A1A24E-22EF-49B1-83E2-7BD0AB73BDE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A1A24E-22EF-49B1-83E2-7BD0AB73BDE3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D2FDABF-AE22-4CC5-9C3A-0A95A4061E3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D2FDABF-AE22-4CC5-9C3A-0A95A4061E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D2FDABF-AE22-4CC5-9C3A-0A95A4061E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D2FDABF-AE22-4CC5-9C3A-0A95A4061E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98EBC742-7A41-4E17-91D4-B4EA5C44BE83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98EBC742-7A41-4E17-91D4-B4EA5C44BE83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98EBC742-7A41-4E17-91D4-B4EA5C44BE83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98EBC742-7A41-4E17-91D4-B4EA5C44BE83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

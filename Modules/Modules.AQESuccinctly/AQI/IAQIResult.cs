@@ -8,7 +8,7 @@
         /// <summary>
         /// 空气质量指数
         /// </summary>
-        int? AQI { get; set; }
+        double? AQI { get; set; }
         /// <summary>
         /// 首要污染物
         /// </summary>

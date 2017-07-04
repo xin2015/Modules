@@ -6,9 +6,9 @@
     public class AQIAbout
     {
         /// <summary>
-        /// 空气质量指数下限
+        /// 空气质量指数上限
         /// </summary>
-        public int AQILowLimit { get; set; }
+        public double AQIUpperLimit { get; set; }
         /// <summary>
         /// 空气质量指数级别
         /// </summary>
